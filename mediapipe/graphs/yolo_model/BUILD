@@ -1,62 +1,11 @@
-# Copyright 2019 The MediaPipe Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Note: this project has 3 source files
+# From now on I put all calculators into separate cpp files
 
-load(
-    "//mediapipe/framework/tool:mediapipe_graph.bzl",
-    "mediapipe_binary_graph",
-)
-
-licenses(["notice"])
-
-package(default_visibility = ["//visibility:public"])
-
-cc_library(
-    name = "mobile_calculators",
+cc_binary(
+    name="1_3",
+    srcs=["main.cpp", "string_source_calculator.cpp", "string_join_calculator.cpp"],
     deps = [
-        "//mediapipe/calculators/core:flow_limiter_calculator",
-        "//mediapipe/calculators/core:previous_loopback_calculator",
-        "//mediapipe/calculators/image:image_transformation_calculator",
-        "//mediapipe/calculators/image:recolor_calculator",
-        "//mediapipe/calculators/image:set_alpha_calculator",
-        "//mediapipe/calculators/tflite:tflite_converter_calculator",
-        "//mediapipe/calculators/tflite:tflite_custom_op_resolver_calculator",
-        "//mediapipe/calculators/tflite:tflite_inference_calculator",
-        "//mediapipe/calculators/tflite:tflite_tensors_to_segmentation_calculator",
-        "//mediapipe/gpu:gpu_buffer_to_image_frame_calculator",
-        "//mediapipe/gpu:image_frame_to_gpu_buffer_calculator",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/port:parse_text_proto",
     ],
-)
-
-cc_library(
-    name = "desktop_calculators",
-    deps = [
-        "//mediapipe/calculators/core:flow_limiter_calculator",
-        "//mediapipe/calculators/core:previous_loopback_calculator",
-        "//mediapipe/calculators/image:color_convert_calculator",
-        "//mediapipe/calculators/image:image_transformation_calculator",
-        "//mediapipe/calculators/image:recolor_calculator",
-        "//mediapipe/calculators/image:set_alpha_calculator",
-        "//mediapipe/calculators/tflite:tflite_converter_calculator",
-        "//mediapipe/calculators/tflite:tflite_custom_op_resolver_calculator",
-        "//mediapipe/calculators/tflite:tflite_inference_calculator",
-        "//mediapipe/calculators/tflite:tflite_tensors_to_segmentation_calculator",
-    ],
-)
-
-mediapipe_binary_graph(
-    name = "mobile_gpu_binary_graph",
-    graph = "yolo_model.pbtxt",
-    output_name = "mobile_gpu.binarypb",
-    deps = [":mobile_calculators"],
 )
